@@ -1,24 +1,32 @@
 import { useEffect, useState } from "react";
 import Header from "./header";
+import CustomAlert from "./CustomAlert";
 function List() {
     const [add, setAdd] = useState(false);
     const [note, setNote] = useState('');
     const [list, setData] = useState([]);
     const [edit, setEdit]= useState(false);
-    const [updateId, setUpdateId] = useState('');
+    const [id, setId] = useState('');
+    const [msg, setMsg] = useState('');
+    const [msgType, setMsgType] = useState('');
+    const [userName, setUserName] = useState(JSON.parse(localStorage.getItem('userData')).name);
+    
 
     useEffect(()=>{
-        if(localStorage.getItem('noteList') !='' && localStorage.getItem('noteList') !=null) setData(JSON.parse(localStorage.getItem('noteList')));
+        if(localStorage.getItem('noteList') !='' && localStorage.getItem('noteList') !=null) {
+            setData(JSON.parse(localStorage.getItem('noteList')));
+        }
     },[add]);
 
-    const saveNote=()=>{
+    const currentTime=()=>{
         let time = new Date();
-        time = `${time.getDate()}/${time.getMonth()}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()}`;
-        const userName = JSON.parse(localStorage.getItem('userData')).name;
+        return `${time.getDate()}/${time.getMonth()}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()}`
+    }
+    const saveNote=()=>{
         let data ={
             userId:userName,
             note: note,
-            date : time
+            date : currentTime()
         }
         if(note !=''){
             let noteList =[];
@@ -29,36 +37,48 @@ function List() {
             setData(prev => [...prev, data])
             console.log(noteList)
             localStorage.setItem('noteList', JSON.stringify(noteList));
+            setMsg('Note Added successfully!');
+            setMsgType('add');
             setNote('');
             setAdd(false);
         }else{
             alert('Enter text to add note!!')
         }
     }
+    const deleteAct=(action)=>{
+       if(action =='yes'){
+            let noteList = JSON.parse(localStorage.getItem('noteList'));
+            noteList.splice(id, 1);
+            setData(noteList);
+            localStorage.setItem('noteList', JSON.stringify(noteList))
+       }
+        setMsg('')
+    }
+    const updateAct=()=>{
+        setMsg('');
+    }
     const deleteNote=(id)=>{
-        let noteList = JSON.parse(localStorage.getItem('noteList'));
-        noteList.splice(id, 1);
-        setData(noteList);
-        localStorage.setItem('noteList', JSON.stringify(noteList))
+        setMsgType('delete')
+        setMsg(`Are you sure you want to delete S.No.${id+1}?`);
+        setId(id)
     }
     const editNote=(id)=>{
         setAdd(true)
         setEdit(true);
-        setUpdateId(id);
+        setId(id);
         console.log(list[id]);
         setNote(list[id].note)
     }
     const updateNote=()=>{
-        let time = new Date();
-        time = `${time.getDate()}/${time.getMonth()}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()}`;
-        const userName = JSON.parse(localStorage.getItem('userData')).name;
-        list[updateId] = {
+        list[id] = {
             userId: userName,
             note: note,
-            date : time
+            date : currentTime()
         };
         setData(list);
         localStorage.setItem('noteList', JSON.stringify(list));
+        setMsg('Note updated successfully!');
+        setMsgType('update');
         setNote('');
         setAdd(false)
         setEdit(false);
@@ -67,6 +87,7 @@ function List() {
     return (
         <>
         <Header />
+        {msg !='' && <CustomAlert title={msg} deleteAct={deleteAct} updateAct={updateAct} msgType={msgType} />}
         <div className="row listBg">
             <div className="col-lg-12">
                 <div className="container">
@@ -94,7 +115,7 @@ function List() {
                                         list.map((item, index)=>
                                         <tr key={index}>
                                             <td>{index+1}</td>
-                                            <td>{item.note}</td>
+                                            <td><pre style={{fontFamily:"cursive"}}>{item.note}</pre></td>
                                             <td>{item.userId}</td>
                                             <td>{item.date}</td>
                                             <td>
@@ -122,7 +143,7 @@ function List() {
                                 <div className="col-lg-6 offset-lg-3 loginBox">
                                     <p>{edit ? 'Update' : 'Add'} Note </p>
                                     <textarea className="form-control" value={note}
-                                    onChange={(e)=>setNote(e.target.value)} placeholder="Enter note..."></textarea>
+                                    onChange={(e)=>setNote(e.target.value)} style={{fontFamily:"cursive"}} placeholder="Enter note..."></textarea>
                                     {
                                         !edit ?
                                         <button className="btn btn-success addBtn" onClick={()=>saveNote()}

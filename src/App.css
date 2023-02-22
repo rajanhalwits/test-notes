@@ -31,3 +31,9 @@
 .noteTable tr td:nth-child(2){ width: 650px;}
 .noteTable tr td:last-child{ width: 130px;}
 .btnLogout{display: block; cursor: pointer; background-color: #DDD; padding: 0px 10px;}
+.popupBg{background-color: rgba(0,0,0,0.8); position: fixed; left: 0px; top: 0px; width: 100%; bottom: 0; z-index: 9;
+display: flex; align-items: center; justify-content: center;
+}
+.popupBody{ padding: 15px; background-color: #FFF; border-radius: 8px; width: 320px; text-align: center; }
+.popupBody .btn{ width: 80px;}
+.popupBody .btn-primary{ margin-left: 10px;}

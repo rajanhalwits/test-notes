@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -8,8 +7,7 @@ function Login() {
     const navigate = useNavigate();
     const [user, setUser] = useState([]);
 
-    useEffect(
-        () => {
+    useEffect(() => {
             if (user) {
                 axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
                     headers: {
@@ -26,9 +24,7 @@ function Login() {
                         console.log(err)
                     });
             }
-        },
-        [user]
-    );
+        },[user]);
 
     const login = useGoogleLogin({
         onSuccess: (codeResponse) => setUser(codeResponse),
