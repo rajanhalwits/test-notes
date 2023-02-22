@@ -1,0 +1,33 @@
+.headerBg{
+    background-color:#000;
+    padding: 15px;
+    color: #FFF;
+}
+.ContentBg{
+    background-color: #F4F4F4;
+    min-height: 100vh;
+    align-items: center;
+}
+.loginBox{
+    background-color: #FFF;
+    padding: 15px;
+    border-radius: 8px;
+    border: solid 1px #DDD;
+}
+.listBg{
+    background-color: #F4F4F4;
+    min-height: 90vh;
+    padding: 15px;
+}
+.pull-right{ float: right;}
+.addBtn{ margin-top: 15px;}
+.navbar-menu{ margin: 0; flex-direction: row; list-style: none; display: flex; justify-content: end; align-items: center;}
+.navbar-menu li{padding: 8px 15px;} 
+.navbar-menu li a{  color: #FFF; text-decoration: none; padding: 8px 15px}
+.navbar-menu li a:hover, .navbar-menu li a.active{ color: #000; background-color: #FFF;}
+.userImage{ width: 30px; border-radius: 50%;}
+.noteTable{ font-size: 14px;}
+.noteTable tr td:first-child{ width: 60px;}
+.noteTable tr td:nth-child(2){ width: 650px;}
+.noteTable tr td:last-child{ width: 130px;}
+.btnLogout{display: block; cursor: pointer; background-color: #DDD; padding: 0px 10px;}
