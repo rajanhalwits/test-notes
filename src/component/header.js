@@ -9,7 +9,6 @@ function Header(){
             setProfile(JSON.parse(localStorage.getItem('userData')))
         }
     },[])  ;
-    console.log(profile); 
     return(
         <div className='row headerBg'>
             <div className='col-lg-1'>

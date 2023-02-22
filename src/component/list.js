@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Header from "./header";
 import CustomAlert from "./CustomAlert";
+import { useSelector, useDispatch } from "react-redux";
+
 function List() {
     const [add, setAdd] = useState(false);
     const [note, setNote] = useState('');
@@ -17,6 +19,10 @@ function List() {
             setData(JSON.parse(localStorage.getItem('noteList')));
         }
     },[add]);
+
+    const notes = useSelector(state => state.notes.notes);
+    console.log('data with redux toolkit', notes)
+    const dispatch = useDispatch();
 
     const currentTime=()=>{
         let time = new Date();
@@ -35,8 +41,9 @@ function List() {
             }
             noteList.push(data);            
             setData(prev => [...prev, data])
-            console.log(noteList)
             localStorage.setItem('noteList', JSON.stringify(noteList));
+            dispatch({type: 'notes/addNote', payload: data});
+
             setMsg('Note Added successfully!');
             setMsgType('add');
             setNote('');
@@ -50,6 +57,7 @@ function List() {
             let noteList = JSON.parse(localStorage.getItem('noteList'));
             noteList.splice(id, 1);
             setData(noteList);
+            dispatch({type: 'notes/deleteNote', payload: id});
             localStorage.setItem('noteList', JSON.stringify(noteList))
        }
         setMsg('')
@@ -66,7 +74,6 @@ function List() {
         setAdd(true)
         setEdit(true);
         setId(id);
-        console.log(list[id]);
         setNote(list[id].note)
     }
     const updateNote=()=>{
