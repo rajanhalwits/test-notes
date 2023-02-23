@@ -1,3 +1,4 @@
+import {memo} from "react";
 function CustomAlert(props){
     
     return(
@@ -12,7 +13,7 @@ function CustomAlert(props){
                             <button className="btn btn-primary btn-sm" onClick={()=>props.deleteAct('no')}>No</button>
                         </>
                         :
-                        <button className="btn btn-success btn-sm" onClick={()=>props.updateAct()}>Yes</button>
+                        <button className="btn btn-success btn-sm" onClick={()=>props.updateAct()}>Ok</button>
                     }
                     
                 </div>
@@ -20,4 +21,4 @@ function CustomAlert(props){
         </>
     )
 }
-export default CustomAlert;
+export default memo(CustomAlert);
